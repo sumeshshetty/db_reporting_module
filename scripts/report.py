@@ -25,12 +25,13 @@ def main():
     
     e = Executor(database_config)
     e.get_top_10_most_time_taken_queries()
+    e.get_schema_information()
+    e.get_triggers_information()
+    e.get_procedures_information()
+    e.get_columns_with_blob_data_type()
+    e.get_indexes_for_tables()
+    e.get_info_if_referenced_key_is_indexed()
 
-
-
-    
-    
-    
 
 
 if __name__ == "__main__":

@@ -1,6 +1,5 @@
 import yaml
 import pymysql
-from logzero import logging
 import pandas as pd
 import os
 
@@ -18,13 +17,11 @@ def get_database_config(client_name, database_name, config):
     return None
 
 def connection(db_config):
-    # logging.info("initialized connection..")
     print("initialized connection..")
     return pymysql.connect(**db_config)
 
 def close_connection(connection):
     connection.close()
-    # logging.info("connection closed...")
     print("connection closed...")
 
 
@@ -35,7 +32,7 @@ def load_queries(file_path):
 
 def df_to_csv(data, cursor,folder, filename ):
     folder = os.path.join('..', folder)
-    os.makedirs(folder, exist_ok=True)  # Create the 'output' folder if it doesn't exist
+    os.makedirs(folder, exist_ok=True)  
     csv_file_path = os.path.join(folder, filename)
             
     columns = [desc[0] for desc in cursor.description]
