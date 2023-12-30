@@ -1,0 +1,73 @@
+get_top_10_most_time_taken_queries: |
+  SELECT
+    DIGEST_TEXT,
+    SCHEMA_NAME,
+    SUM(SUM_TIMER_WAIT) AS total_exec_time
+  FROM
+    performance_schema.events_statements_summary_by_digest
+  WHERE
+    SCHEMA_NAME = ':schema'
+  GROUP BY
+    DIGEST_TEXT, SCHEMA_NAME
+  ORDER BY
+    total_exec_time DESC
+  LIMIT 10;
+
+get_schema_information: |
+  SELECT table_name, table_schema, engine, table_rows, data_length, index_length
+  FROM information_schema.tables
+  WHERE table_schema = ':schema' ;
+
+get_triggers_information: |
+  SELECT trigger_name, event_object_table, action_statement
+  FROM information_schema.triggers
+  WHERE trigger_schema = ':schema';
+
+get_procedures_information: |
+  SELECT routine_name, routine_type, data_type
+  FROM information_schema.routines
+  WHERE routine_schema = ':schema';
+
+get_columns_with_blob_data_type: |
+  SELECT table_name, column_name, data_type, character_maximum_length, is_nullable
+  FROM information_schema.columns
+  WHERE table_schema = ':schema'
+  AND data_type = 'blob';
+
+get_indexes_for_tables: |
+  SELECT 
+    TABLE_NAME,
+    COLUMN_NAME,
+    CONSTRAINT_NAME,
+    REFERENCED_TABLE_NAME,
+    REFERENCED_COLUMN_NAME
+  FROM 
+    information_schema.KEY_COLUMN_USAGE
+  WHERE 
+    TABLE_SCHEMA = ':schema'
+    AND REFERENCED_TABLE_NAME IS NOT NULL;
+
+get_info_if_referenced_key_is_indexed: |
+  SELECT 
+    KCU.TABLE_NAME,
+    KCU.COLUMN_NAME,
+    KCU.CONSTRAINT_NAME,
+    KCU.REFERENCED_TABLE_NAME,
+    KCU.REFERENCED_COLUMN_NAME,
+    CASE 
+        WHEN RC.INDEX_NAME IS NOT NULL THEN 'Yes'
+        ELSE 'No'
+    END AS 'Referenced_Column_Indexed'
+  FROM 
+    information_schema.KEY_COLUMN_USAGE KCU
+  LEFT JOIN 
+    information_schema.STATISTICS RC
+  ON 
+    KCU.REFERENCED_TABLE_NAME = RC.TABLE_NAME
+    AND KCU.REFERENCED_COLUMN_NAME = RC.COLUMN_NAME
+  WHERE 
+    KCU.TABLE_SCHEMA = 'systemx'
+    AND KCU.REFERENCED_TABLE_NAME IS NOT NULL;
+
+
+

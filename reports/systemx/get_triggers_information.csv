@@ -1,0 +1,8 @@
+TRIGGER_NAME,EVENT_OBJECT_TABLE,ACTION_STATEMENT
+generateSequenceNumber,open_mandate_contract,"BEGIN
+	SET NEW.sequence_no = (
+               SELECT IFNULL(MAX(sequence_no), 0) + 1
+                   FROM open_mandate_contract
+                   WHERE account_number = NEW.account_number AND repayment_mode = NEW.repayment_mode
+	);
+END"

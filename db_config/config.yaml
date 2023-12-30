@@ -1,15 +1,15 @@
 clients:
   - name: TataCapital
     databases:
-      - name: systemx
+      - database: systemx
         host: tclpocdb-ufvqs.tatacapital.tessell.com
         port: 3306
-        username: master
+        user: master
         password: Tata123
   - name: Fedfina
     databases:
-      - name: atlas_db
+      - database: atlas_db
         host: atlas-db-uat.c9v4py5vubyn.ap-south-1.rds.amazonaws.com
         port: 3306
-        username: master
+        user: master
         password: AtlasDB123##
