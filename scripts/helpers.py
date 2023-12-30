@@ -1,6 +1,8 @@
 import yaml
 import pymysql
 from logzero import logging
+import pandas as pd
+import os
 
 def load_config(file_path):
     with open(file_path, 'r') as config_file:
@@ -24,3 +26,21 @@ def close_connection(connection):
     connection.close()
     # logging.info("connection closed...")
     print("connection closed...")
+
+
+def load_queries(file_path):
+    with open(file_path, 'r') as file:
+        queries = yaml.safe_load(file)
+    return queries
+
+def df_to_csv(data, cursor,folder, filename ):
+    folder = os.path.join('..', folder)
+    os.makedirs(folder, exist_ok=True)  # Create the 'output' folder if it doesn't exist
+    csv_file_path = os.path.join(folder, filename)
+            
+    columns = [desc[0] for desc in cursor.description]
+    df = pd.DataFrame(data, columns=columns)
+    df.to_csv(csv_file_path, index=False)
+
+    print(f'DataFrame saved to {csv_file_path}')
+    
