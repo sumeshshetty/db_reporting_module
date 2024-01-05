@@ -13,3 +13,18 @@ clients:
         port: 3306
         user: master
         password: AtlasDB123##
+  - name: EpicGames_UAT
+    databases:
+      - database: epic_stagging
+        host: uat-epic-instance.cagp254tkusi.ap-south-1.rds.amazonaws.com
+        port: 3306
+        user: devuser
+        password: DevUser@321
+  - name: EpicGames_Prod
+    databases:
+      - database: vm_app_prod
+        host: vm-prod-instance.cluster-cagp254tkusi.ap-south-1.rds.amazonaws.com
+        port: 3306
+        user: admin
+        password: DevUser@321
+    
