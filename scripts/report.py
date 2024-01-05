@@ -24,7 +24,7 @@ def main():
         logger.error(f"Database not found for {args.client} - {args.db_name}")
     
     e = Executor(database_config)
-    e.get_top_10_most_time_taken_queries()
+    # e.get_top_10_most_time_taken_queries()
     e.get_schema_information()
     e.get_triggers_information()
     e.get_procedures_information()
