@@ -31,6 +31,8 @@ def main():
     e.get_columns_with_blob_data_type()
     e.get_indexes_for_tables()
     e.get_info_if_referenced_key_is_indexed()
+    e.check_if_no_index_present_at_all()
+    #e.check_foreign_key_is_present_but_index_is_not_there()
 
 
 

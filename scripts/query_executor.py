@@ -104,6 +104,34 @@ class Executor:
             cursor.close()
             
         close_connection(self.connection)
+    
+    def check_if_no_index_present_at_all(self):
+        with self.connection.cursor() as cursor:
+            
+            query = self.queries.get('check_if_no_index_present_at_all')
+            query = query.replace(':schema', self.config['database'])
+            
+            cursor.execute(query)
+            result = cursor.fetchall()
+            
+            df_to_csv(result, cursor,folder= 'reports'+'/'+self.config['database'], filename = 'check_if_no_index_present_at_all.csv')
+            cursor.close()
+            
+        close_connection(self.connection)
+    
+    def check_foreign_key_is_present_but_index_is_not_there(self):
+        with self.connection.cursor() as cursor:
+            
+            query = self.queries.get('check_foreign_key_is_present_but_index_is_not_there')
+            query = query.replace(':schema', self.config['database'])
+            
+            cursor.execute(query)
+            result = cursor.fetchall()
+            
+            df_to_csv(result, cursor,folder= 'reports'+'/'+self.config['database'], filename = 'check_foreign_key_is_present_but_index_is_not_there.csv')
+            cursor.close()
+            
+        close_connection(self.connection)
 
     
         
